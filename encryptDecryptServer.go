@@ -11,13 +11,13 @@ import (
 
 func newEncryptDecryptServer() http.Handler {
 	r := mux.NewRouter()
-	r.Handle("/encrypt/{normalstring}", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(encryptHandler)))
-	r.Handle("/decrypt/{encryptedstring}", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(decryptHandler)))
+	r.Handle("/api/encrypt/{normalstring}", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(encryptHandler)))
+	r.Handle("/api/decrypt/{encryptedstring}", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(decryptHandler)))
 	return r
 }
 
 func encryptHandler(w http.ResponseWriter, r *http.Request) {
-	name, exists := mux.Vars(r)["normalstring"]
+	name := mux.Vars(r)["normalstring"]
 
 	if len(name) < 8 {
 		w.WriteHeader(400)
@@ -25,23 +25,11 @@ func encryptHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !exists {
-		w.WriteHeader(404)
-		w.Write([]byte("Invalid endpoint"))
-		return
-	}
-
 	w.Write([]byte(b64.StdEncoding.EncodeToString([]byte(name))))
 }
 
 func decryptHandler(w http.ResponseWriter, r *http.Request) {
-	encryptedstring, exists := mux.Vars(r)["encryptedstring"]
-
-	if !exists {
-		w.WriteHeader(404)
-		w.Write([]byte("Invalid endpoint"))
-		return
-	}
+	encryptedstring := mux.Vars(r)["encryptedstring"]
 
 	a, b := b64.StdEncoding.DecodeString(encryptedstring)
 

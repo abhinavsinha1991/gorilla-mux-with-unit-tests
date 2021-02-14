@@ -8,7 +8,7 @@ import (
 )
 
 func TestMyRouterAndHandler(t *testing.T) {
-	req, _ := http.NewRequest("GET", "/encrypt/12345678", nil)
+	req, _ := http.NewRequest("GET", "/api/encrypt/12345678", nil)
 	res := httptest.NewRecorder()
 	newEncryptDecryptServer().ServeHTTP(res, req)
 
@@ -20,7 +20,7 @@ func TestMyRouterAndHandler(t *testing.T) {
 }
 
 func TestInvalidLengthRequest(t *testing.T) {
-	req, _ := http.NewRequest("GET", "/encrypt/1234", nil)
+	req, _ := http.NewRequest("GET", "/api/encrypt/1234", nil)
 	res := httptest.NewRecorder()
 	newEncryptDecryptServer().ServeHTTP(res, req)
 
@@ -31,8 +31,20 @@ func TestInvalidLengthRequest(t *testing.T) {
 	}
 }
 
+func TestEmptyEncryptInput(t *testing.T) {
+	req, _ := http.NewRequest("GET", "/api/encrypt/", nil)
+	res := httptest.NewRecorder()
+	newEncryptDecryptServer().ServeHTTP(res, req)
+
+	fmt.Println(res.Code)
+
+	if res.Code != 404 {
+		t.Error("Expected MTIzNDU2Nzg= but got ", res.Body.String())
+	}
+}
+
 func TestInvalidStringToBeDecrypted(t *testing.T) {
-	req, _ := http.NewRequest("GET", "/decrypt/abcd111", nil)
+	req, _ := http.NewRequest("GET", "/api/decrypt/abcd111", nil)
 	res := httptest.NewRecorder()
 	newEncryptDecryptServer().ServeHTTP(res, req)
 
@@ -44,7 +56,7 @@ func TestInvalidStringToBeDecrypted(t *testing.T) {
 }
 
 func TestNonExistentEndpoint(t *testing.T) {
-	req, _ := http.NewRequest("GET", "/dummy", nil)
+	req, _ := http.NewRequest("GET", "/api/dummy", nil)
 	res := httptest.NewRecorder()
 	newEncryptDecryptServer().ServeHTTP(res, req)
 

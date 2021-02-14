@@ -8,16 +8,17 @@
    `go build gorilla-mux-with-unit-tests`
    followed by
    `go run gorilla-mux-with-unit-tests`
-   
-   Then, test the encrypt API: localhost:8080/encrpyt/abcd
 
-   Should return `400` HTTP code with message `Requested string length should be greater than 8 characters`
-   
-   Now try with: `localhost:8080/encrpyt/12345678`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Then, test the encrypt API: `localhost:8080/encrpyt/abcd`
 
-Then, test the decrypt API: `localhost:8080/encrpyt/<encrypted string exactly as returned by the encrypt API>`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Should return `400` HTTP code with message `Requested string length should be greater than 8 characters`
 
-If you give wrong encrypted string, the API owuld return HTTP code `422` with an `Invalid Input` message.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now try with: `localhost:8080/encrpyt/12345678`  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Then, test the decrypt API: `localhost:8080/encrpyt/<encrypted string exactly as returned by the encrypt API>`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you give wrong encrypted string, the API would return HTTP code `422` with an `Invalid Input` message.
 
 3. To run all unit tests:
    `go test gorilla-mux-with-unit-tests`

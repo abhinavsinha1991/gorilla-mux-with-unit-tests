@@ -4,4 +4,4 @@ WORKDIR /
 COPY . .
 RUN go get -d github.com/gorilla/mux
 
-CMD ["go","run","main.go"]
+CMD ["go","run","gorilla-mux-with-unit-tests"]
